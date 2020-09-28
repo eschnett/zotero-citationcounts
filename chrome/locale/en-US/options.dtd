@@ -1,0 +1,13 @@
+<!ENTITY citationcounts-name "Citation Counts Manager">
+<!ENTITY citationcounts-preferences "Citation Counts Manager Preferences">
+<!ENTITY autoretrieve-label "Get citation counts for new items">
+<!ENTITY autoretrieve-crossref-label "Crossref citation counts">
+<!ENTITY autoretrieve-inspire-label "Inspire HEP citation counts">
+<!ENTITY autoretrieve-ads-label "NASA/ADS citation counts">
+<!ENTITY autoretrieve-semanticscholar-label "Semantic Scholar citation counts">
+<!ENTITY autoretrieve-no-label "No">
+<!ENTITY notfound-tag-label "Citation Counts Not Found Tags">
+<!ENTITY notfound-tag-desc "Tags added to items to indicate reasons why unique citation counts are not found">
+<!ENTITY tag-invalid-label "Invalid citation counts">
+<!ENTITY tag-multiple-label "Multiple possible citation counts found">
+<!ENTITY tag-nocitationcounts-label "No citation counts found">

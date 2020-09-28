@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/preferences.css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zoterocitationcounts/locale/options.dtd">
+
+<!-- onload="updatePreferenceWindow('all');" -->
+<prefwindow id="citationcounts-pref" title="&citationcounts-preferences;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<stringbundleset id="stringbundleset">
+		<stringbundle id="citationcounts-options" src="chrome://zotero-citationcounts/locale/options.properties"/>
+	</stringbundleset>
+  <prefpane label="&citationcounts-preferences;" id="citationcounts-prefpane">
+    <preferences>
+      <preference id="pref-citationcounts-autoretrieve" name="extensions.citationcounts.autoretrieve" type="string"/>
+      <preference id="pref-citationcounts-tag-invalid" name="extensions.citationcounts.tag_invalid" type="string"/>
+      <preference id="pref-citationcounts-tag-multiple" name="extensions.citationcounts.tag_multiple" type="string"/>
+      <preference id="pref-citationcounts-tag-nocitationcounts" name="extensions.citationcounts.tag_nocitationcounts" type="string"/>
+    </preferences>
+      
+    <groupbox>
+      <caption label="&autoretrieve-label;"/>
+      <radiogroup id="id-citationcounts-autoretrieve" preference="pref-citationcounts-autoretrieve">
+        <radio label="&autoretrieve-crossref-label;" value='crossref'/>
+        <radio label="&autoretrieve-inspire-label;" value='inspire'/>
+        <radio label="&autoretrieve-ads-label;" value='ads'/>
+        <radio label="&autoretrieve-semanticscholar-label;" value='semanticscholar'/>
+        <radio label="&autoretrieve-no-label;" value='none'/>
+      </radiogroup>
+    </groupbox>
+    <separator class="thin"/>
+
+    <groupbox>
+      <caption label="&notfound-tag-label;"/>
+      <description style="width: 420px">&notfound-tag-desc;</description>
+      <separator class="thin"/>
+      <label control="id-citationcounts-tag-invalid" value="&tag-invalid-label;"/>
+      <textbox id="id-citationcounts-tag-invalid" preference="pref-citationcounts-tag-invalid" flex="1"/>
+      <separator class="thin"/>
+      <label control="id-citationcounts-tag-multiple" value="&tag-multiple-label;"/>
+      <textbox id="id-citationcounts-tag-multiple" preference="pref-citationcounts-tag-multiple" flex="1"/>
+      <separator class="thin"/>
+      <label control="id-citationcounts-tag-nocitationcounts" value="&tag-nocitationcounts-label;"/>
+      <textbox id="id-citationcounts-tag-nocitationcounts" preference="pref-citationcounts-tag-nocitationcounts" flex="1"/>
+    </groupbox>
+  </prefpane>
+
+  <script src="options.js"/>
+  <script src="chrome://zotero/content/include.js"/>
+
+</prefwindow>

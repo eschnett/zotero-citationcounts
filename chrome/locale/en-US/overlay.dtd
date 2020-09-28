@@ -1,0 +1,19 @@
+<!ENTITY zotero.zoterocitationcounts.crossref.label "Get Crossref citation count">
+<!ENTITY zotero.zoterocitationcounts.inspire.label "Get Inspire HEP citation count">
+<!ENTITY zotero.zoterocitationcounts.ads.label "Get NASA/ADS citation count">
+<!ENTITY zotero.zoterocitationcounts.semanticscholar.label "Get Semantic Scholar citation count">
+<!ENTITY zotero.zoterocitationcounts.menu.label "Manage Citation Counts">
+<!ENTITY zotero.zoterocitationcounts.toolsmenu.label "Get citation counts for new items">
+
+<!ENTITY citationcounts-preferences-label "Citation Counts Manager Preferences…">
+<!ENTITY citationcounts-autoretrieve-label "Get citation counts for new items">
+<!ENTITY citationcounts-autoretrieve-crossref-label "Crossref">
+<!ENTITY citationcounts-autoretrieve-inspire-label "Inspire HEP">
+<!ENTITY citationcounts-autoretrieve-ads-label "NASA/ADS">
+<!ENTITY citationcounts-autoretrieve-semanticscholar-label "Semantic Scholar">
+<!ENTITY citationcounts-autoretrieve-no-label "No">
+<!ENTITY citationcounts-menu-label "Manage Citation Counts">
+<!ENTITY citationcounts-menu-crossref-label "Get Crossref citation counts">
+<!ENTITY citationcounts-menu-inspire-label "Get Inspire HEP citation counts">
+<!ENTITY citationcounts-menu-ads-label "Get NASA/ADS citation counts">
+<!ENTITY citationcounts-menu-semanticscholar-label "Get Semantic Scholar citation counts">

@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://zoterocitationcounts/locale/overlay.dtd">
+
+<overlay
+    id="zoterocitationcounts"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script src="chrome://zoterocitationcounts/content/scripts/zoterocitationcounts.js"/>
+    <script src="chrome://zotero/content/include.js"/>
+
+    <stringbundleset id="stringbundleset">
+        <stringbundle
+            id="citationcounts-bundle"
+            src="chrome://zoterocitationcounts/locale/zoterocitationcounts.properties"/>
+    </stringbundleset>
+
+    <popup
+        id="zotero-itemmenu">
+        <menu class="menu-iconic" image="chrome://zoterocitationcounts/skin/doi@2x.png" id="zotero-itemmenu-citationcounts-menu" label="&citationcounts-menu-label;">
+            <menupopup id="zotero-itemmenu-citationcounts-menupopup">
+                <menuitem
+                    id="zotero-itemmenu-citationcounts-crossref"
+                    label="&citationcounts-menu-crossref-label;"
+                    oncommand="Zotero.CitationCounts.updateSelectedItems('crossref')"/>
+                <menuitem
+                    id="zotero-itemmenu-citationcounts-inspire"
+                    label="&citationcounts-menu-inspire-label;"
+                    oncommand="Zotero.CitationCounts.updateSelectedItems('inspire')"/>
+                <menuitem
+                    id="zotero-itemmenu-citationcounts-ads"
+                    label="&citationcounts-menu-ads-label;"
+                    oncommand="Zotero.CitationCounts.updateSelectedItems('ads')"/>
+                <menuitem
+                    id="zotero-itemmenu-citationcounts-semanticscholar"
+                    label="&citationcounts-menu-semanticscholar-label;"
+                    oncommand="Zotero.CitationCounts.updateSelectedItems('semanticscholar')"/>
+            </menupopup>
+        </menu>
+    </popup>
+    
+    <menupopup id="menu_ToolsPopup">
+      <menuitem id="menu_Tools-citationcounts-preferences" label="&citationcounts-preferences-label;" oncommand="Zotero.CitationCounts.openPreferenceWindow();"/>
+      <menu id="menu_Tools-citationcounts-menu" label="&citationcounts-autoretrieve-label;">
+        <menupopup id="menu_Tools-citationcounts-menu-popup" onpopupshowing="Zotero.CitationCounts.setCheck();">
+          <menuitem
+              id="menu_Tools-citationcounts-menu-popup-crossref"
+              type="checkbox"
+              label="&citationcounts-autoretrieve-crossref-label;"
+              oncommand="Zotero.CitationCounts.changePref('crossref');"/>
+          <menuitem
+              id="menu_Tools-citationcounts-menu-popup-inspire"
+              type="checkbox"
+              label="&citationcounts-autoretrieve-inspire-label;"
+              oncommand="Zotero.CitationCounts.changePref('inspire');"/>
+          <menuitem
+              id="menu_Tools-citationcounts-menu-popup-ads"
+              type="checkbox"
+              label="&citationcounts-autoretrieve-ads-label;"
+              oncommand="Zotero.CitationCounts.changePref('ads);"/>
+          <menuitem
+              id="menu_Tools-citationcounts-menu-popup-semanticscholar"
+              type="checkbox"
+              label="&citationcounts-autoretrieve-semanticscholar-label;"
+              oncommand="Zotero.CitationCounts.changePref('semanticscholar');"/>
+          <menuitem
+              id="menu_Tools-citationcounts-menu-popup-none"
+              type="checkbox"
+              label="&citationcounts-autoretrieve-no-label;"
+              oncommand="Zotero.CitationCounts.changePref('none');"/>
+        </menupopup>
+      </menu>
+    </menupopup>
+
+
+</overlay>

@@ -1,0 +1,7 @@
+content zoterocitationcounts chrome/content/
+
+overlay chrome://zotero/content/zoteroPane.xul chrome://zoterocitationcounts/content/overlay.xul
+
+locale  zoterocitationcounts  en-US   chrome/locale/en-US/
+
+skin    zoterocitationcounts  default chrome/skin/default/zoterocitationcounts/
