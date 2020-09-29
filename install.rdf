@@ -10,7 +10,7 @@
         em:version="0.1.0"
         em:type="2"
         em:creator="Erik Schnetter"
-        em:description="Zotero plugin for auto-fetching and validating DOI and citationcounts names"
+        em:description="Automatically fetch and update citation counts"
         em:homepageURL="https://github.com/eschnett/zotero-citationcounts"
         em:updateURL="https://raw.githubusercontent.com/eschnett/zotero-citationcounts/master/update.rdf">
         <em:type>2</em:type>
@@ -20,13 +20,6 @@
                 <em:minVersion>5.0</em:minVersion>
                 <em:maxVersion>5.*</em:maxVersion>
             </Description>
-        </em:targetApplication>
-        <em:targetApplication>
-          <Description>
-            <em:id>juris-m@juris-m.github.io</em:id>
-            <em:minVersion>5.0</em:minVersion>
-            <em:maxVersion>5.*</em:maxVersion>
-          </Description>
         </em:targetApplication>
     </RDF:Description>
 </RDF:RDF>
