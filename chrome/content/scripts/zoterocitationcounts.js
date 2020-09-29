@@ -272,13 +272,36 @@ Zotero.CitationCounts.updateItem = function(item, operation) {
             Zotero.CitationCounts.updateNextItem(operation);
             return;
         }
-        const count = 42;       // might be true?
-        setCitationCount(item, 'Crossref', count);
-        item.saveTx();
-        Zotero.CitationCounts.counter++;
+
+        const edoi = encodeURIComponent(doi);
+
+        const style = "vnd.citationstyles.csl+json";
+        const xform = "transform/application/" + style;
+        const url = "https://api.crossref.org/works/" + edoi + "/" + xform;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.hasOwnProperty('is-referenced-by-count')) {
+                    // There are no citation counts
+                    Zotero.CitationCounts.updateNextItem(operation);
+                    return;
+                }
+
+                const str = data['is-referenced-by-count'];
+                const count = parseInt(str);
+                setCitationCount(item, 'Crossref', count);
+                item.saveTx();
+                Zotero.CitationCounts.counter++;
+                Zotero.CitationCounts.updateNextItem(operation);
+            })
+            .catch(err => {
+                // Something went wrong; we don't care what
+                Zotero.CitationCounts.updateNextItem(operation);
+            });
+    } else {
         Zotero.CitationCounts.updateNextItem(operation);
     }
-    Zotero.CitationCounts.updateNextItem(operation);
 };
 
 if (typeof window !== 'undefined') {
