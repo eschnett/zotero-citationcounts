@@ -148,6 +148,57 @@ async function getInspireCount(item, idtype) {
     return count;
 }
 
+async function getSemanticScholarCount(item, idtype) {
+    let doi = null;
+    if (idtype == 'doi') {
+        doi = item.getField('DOI');
+    } else if (idtype == 'arxiv') {
+        const arxiv = item.getField('url'); // check URL for arXiv id
+        const patt = /(?:arxiv.org[/]abs[/]|arXiv:)([a-z.-]+[/]\d+|\d+[.]\d+)/i;
+        const m = patt.exec(arxiv);
+        if (!m) {
+            // No arxiv id found
+            return -1;
+        }
+        doi = m[1];
+    } else {
+        // Internal error
+        return -1;
+    }
+    if (!doi) {
+        // There is no DOI / arXiv id; skip item
+        return -1;
+    }
+    const edoi = encodeURIComponent(doi);
+
+    const url =
+          "https://api.semanticscholar.org/v1/paper/" +
+          (idtype == 'doi' ? '' : 'arXiv:') + edoi
+    const response = await fetch(url)
+          .then(response => response.json())
+          .catch(err => null);
+
+    if (response === null) {
+        // Something went wrong
+        return -1;
+    }
+
+    let count = null;
+    try {
+        // Semantic Scholar returns the actual citations
+        count = response['citations'].length;
+        // Semantic Scholar imposes a rate limit of 100 requests per 5
+        // minutes. We should keep track of this globally so that we
+        // don't need to rate limit if there are just a few requests.
+        await await new Promise(r => setTimeout(r, 3000));
+    } catch (err) {
+        // There are no citations
+        return -1;
+    }
+
+    return count;
+}
+
 // Preference managers
 
 function getPref(pref) {
@@ -383,6 +434,22 @@ Zotero.CitationCounts.updateItem = async function(item, operation) {
             }
             if (count_arxiv >= 0) {
                 setCitationCount(item, 'Inspire/arXiv', count_arxiv);
+            }
+            item.saveTx();
+            Zotero.CitationCounts.counter++;
+        }
+        Zotero.CitationCounts.updateNextItem(operation);
+
+    } else if (operation == "semanticscholar") {
+
+        const count_doi = await getSemanticScholarCount(item, 'doi');
+        const count_arxiv = await getSemanticScholarCount(item, 'arxiv');
+        if (count_doi >= 0 || count_arxiv >= 0) {
+            if (count_doi >= 0) {
+                setCitationCount(item, 'Semantic Scholar/DOI', count_doi);
+            }
+            if (count_arxiv >= 0) {
+                setCitationCount(item, 'Semantic Scholar/arXiv', count_arxiv);
             }
             item.saveTx();
             Zotero.CitationCounts.counter++;
