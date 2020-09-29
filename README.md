@@ -1,10 +1,18 @@
 # Zotero Citation Counts Manager
 
-This is an add-on for Zotero, a research source management tool. The
-add-on can auto-fetch citation counts for journal articles using
-various APIs, including Crossref, Inspire HEP, and and Semantic
-Scholar (and in the future possibly NASA/ADS). Google Scholar is not
-supported because automated access is against its terms of service.
+* [GitHub](https://github.com/eschnett/zotero-citationcounts): Source
+  code repository
+* Will be archived on Zenodo
+
+This is an add-on for [Zotero](https://www.zotero.org), a research
+source management tool. The add-on can auto-fetch citation counts for
+journal articles using various APIs, including
+[Crossref](https://www.crossref.org), [Inspire
+HEP](https://inspirehep.net), and [Semantic
+Scholar](https://www.semanticscholar.org) (and in the future possibly
+[NASA/ADS](https://ui.adsabs.harvard.edu)). [Google
+Scholar](https://scholar.google.com) is not supported because
+automated access is against its terms of service.
 
 Please report any bugs, questions, or feature requests in the Github
 repository.
