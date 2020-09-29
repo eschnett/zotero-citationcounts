@@ -11,7 +11,7 @@ repository.
 
 Code for this extension is based on the [Zotero DOI
  Manager](https://github.com/bwiernik/zotero-shortdoi), which is based
- in part [Zotero Google Scholar
+ in part on [Zotero Google Scholar
  Citations](https://github.com/beloglazov/zotero-scholar-citations) by
  Anton Beloglazov.
 
@@ -26,7 +26,7 @@ Code for this extension is based on the [Zotero DOI
 - Run Zotero (version 5.x)
 - Go to `Tools -> Add-ons`
 - `Install Add-on From File`
-- Choose the file `zotero-citationcounts-0.1.2.xpi`
+- Choose the file `zotero-citationcounts-0.1.3.xpi`
 - Restart Zotero
 
 ## License

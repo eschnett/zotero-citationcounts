@@ -17,24 +17,24 @@ const operationNames = {
     "semanticscholar": "Semantic Scholar"
 };
 
-function getCitationCount(item, tag) {
-    let extra = item.getField('extra');
-    if (!extra) {
-        return -1;
-    }
-    let extras = extra.split("\n");
-    const patt = new RegExp("^Citations \\(" + tag + "\\): (\\d+).*", "i");
-    extras = extras.filter(ex => patt.test(ex));
-    if (length(extras) == 0) {
-        return -1;
-    }
-    let count = patt.exec(extras[1])
-    if (!count) {
-        return -1;
-    }
-    count = parseInt(count);
-    return count;
-}
+// function getCitationCount(item, tag) {
+//     let extra = item.getField('extra');
+//     if (!extra) {
+//         return -1;
+//     }
+//     let extras = extra.split("\n");
+//     const patt = new RegExp("^Citations \\(" + tag + "\\): (\\d+).*", "i");
+//     extras = extras.filter(ex => patt.test(ex));
+//     if (length(extras) == 0) {
+//         return -1;
+//     }
+//     let count = patt.exec(extras[1])[1]
+//     if (!count) {
+//         return -1;
+//     }
+//     count = parseInt(count);
+//     return count;
+// }
 
 function setCitationCount(item, tag, count) {
     let extra = item.getField('extra');
@@ -55,6 +55,93 @@ function setCitationCount(item, tag, count) {
     item.setField('extra', extra);
 }
 
+async function getCrossrefCount(item) {
+    const doi = item.getField('DOI');
+    if (!doi) {
+        // There is no DOI; skip item
+        return -1;
+    }
+    const edoi = encodeURIComponent(doi);
+
+    let response = null;
+
+    if (response === null) {
+        const style = "vnd.citationstyles.csl+json";
+        const xform = "transform/application/" + style;
+        const url = "https://api.crossref.org/works/" + edoi + "/" + xform;
+        response = await fetch(url)
+            .then(response => response.json())
+            .catch(err => null);
+    }
+
+    if (response === null) {
+        const url = "https://doi.org/" + edoi;
+        const style = "vnd.citationstyles.csl+json";
+        response = await fetch(url, {
+            headers: {
+                "Accept": "application/" + style
+            }
+        })
+            .then(response => response.json())
+            .catch(err => null);
+        }
+
+    if (response === null) {
+        // Something went wrong
+        return -1;
+    }
+
+    let str = null;
+    try {
+        str = response['is-referenced-by-count'];
+    } catch (err) {
+        // There are no citation counts
+        return -1;
+    }
+
+    const count = parseInt(str);
+    return count;
+}
+
+async function getInspireCount(item, idtype) {
+    let doi = null;
+    if (idtype == 'doi') {
+        doi = item.getField('DOI');
+    } else if (idtype == 'arxiv') {
+        const arxiv = item.getField('url'); // check URL for arXiv id
+        const patt = /(?:arxiv.org[/]abs[/]|arXiv:)([a-z.-]+[/]\d+|\d+[.]\d+)/i;
+        doi = patt.exec(arxiv)[1];
+    } else {
+        // Error
+        return -1;
+    }
+    if (!doi) {
+        // There is no DOI / arXiv id; skip item
+        return -1;
+    }
+    const edoi = encodeURIComponent(doi);
+
+    const url = "https://inspirehep.net/api/" + idtype + "/" + edoi;
+    const response = await fetch(url)
+          .then(response => response.json())
+          .catch(err => null);
+
+    if (response === null) {
+        // Something went wrong
+        return -1;
+    }
+
+    let str = null;
+    try {
+        str = response['metadata']['citation_count'];
+    } catch (err) {
+        // There are no citation counts
+        return -1;
+    }
+
+    const count = parseInt(str);
+    return count;
+}
 
 // Preference managers
 
@@ -93,7 +180,7 @@ Zotero.CitationCounts.notifierCallback = {
 
 // Controls for Tools menu
 
-// *********** Set the checkbox checks, frompref
+// *********** Set the checkbox checks, from pref
 Zotero.CitationCounts.setCheck = function() {
     let tools_crossref = document.getElementById(
         "menu_Tools-citationcounts-menu-popup-crossref");
@@ -270,41 +357,33 @@ Zotero.CitationCounts.updateNextItem = function(operation) {
         operation);
 };
 
-Zotero.CitationCounts.updateItem = function(item, operation) {
+Zotero.CitationCounts.updateItem = async function(item, operation) {
     if (operation == "crossref") {
-        const doi = item.getField('DOI');
-        if (!doi) {
-            // There is no DOI; skip item
-            Zotero.CitationCounts.updateNextItem(operation);
-            return;
+
+        const count = await getCrossrefCount(item);
+        if (count >= 0) {
+            setCitationCount(item, 'Crossref', count);
+            item.saveTx();
+            Zotero.CitationCounts.counter++;
         }
+        Zotero.CitationCounts.updateNextItem(operation);
 
-        const edoi = encodeURIComponent(doi);
+    } else if (operation == "inspire") {
 
-        const style = "vnd.citationstyles.csl+json";
-        const xform = "transform/application/" + style;
-        const url = "https://api.crossref.org/works/" + edoi + "/" + xform;
+        const count_doi = await getInspireCount(item, 'doi');
+        const count_arxiv = await getInspireCount(item, 'arxiv');
+        if (count_doi >= 0 || count_arxiv >= 0) {
+            if (count_doi >= 0) {
+                setCitationCount(item, 'Inspire/DOI', count_doi);
+            }
+            if (count_arxiv >= 0) {
+                setCitationCount(item, 'Inspire/arXiv', count_arxiv);
+            }
+            item.saveTx();
+            Zotero.CitationCounts.counter++;
+        }
+        Zotero.CitationCounts.updateNextItem(operation);
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (!data.hasOwnProperty('is-referenced-by-count')) {
-                    // There are no citation counts
-                    Zotero.CitationCounts.updateNextItem(operation);
-                    return;
-                }
-
-                const str = data['is-referenced-by-count'];
-                const count = parseInt(str);
-                setCitationCount(item, 'Crossref', count);
-                item.saveTx();
-                Zotero.CitationCounts.counter++;
-                Zotero.CitationCounts.updateNextItem(operation);
-            })
-            .catch(err => {
-                // Something went wrong; we don't care what
-                Zotero.CitationCounts.updateNextItem(operation);
-            });
     } else {
         Zotero.CitationCounts.updateNextItem(operation);
     }
