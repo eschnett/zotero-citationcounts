@@ -110,9 +110,14 @@ async function getInspireCount(item, idtype) {
     } else if (idtype == 'arxiv') {
         const arxiv = item.getField('url'); // check URL for arXiv id
         const patt = /(?:arxiv.org[/]abs[/]|arXiv:)([a-z.-]+[/]\d+|\d+[.]\d+)/i;
-        doi = patt.exec(arxiv)[1];
+        const m = patt.exec(arxiv);
+        if (!m) {
+            // No arxiv id found
+            return -1;
+        }
+        doi = m[1];
     } else {
-        // Error
+        // Internal error
         return -1;
     }
     if (!doi) {
