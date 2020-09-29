@@ -7,7 +7,7 @@
         RDF:about="urn:mozilla:install-manifest"
         em:id="schnetter@gmail.com"
         em:name="Zotero Citation Counts Manager"
-        em:version="0.1.1"
+        em:version="0.1.2"
         em:type="2"
         em:creator="Erik Schnetter"
         em:description="Automatically fetch and update citation counts"

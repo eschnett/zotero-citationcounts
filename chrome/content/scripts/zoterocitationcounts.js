@@ -50,7 +50,7 @@ function setCitationCount(item, tag, count) {
     const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     const yyyy = today.getFullYear();
     const date = yyyy + '-' + mm + '-' + dd
-    extras.push("Citations (" + tag + "): " + count) + " [" + date + "]";
+    extras.push("Citations (" + tag + "): " + count + " [" + date + "]");
     extra = extras.join("\n");
     item.setField('extra', extra);
 }
@@ -235,7 +235,7 @@ Zotero.CitationCounts.updateItems = function(items0, operation) {
     const icon = 'chrome://zotero/skin/toolbar-advanced-search' +
           (Zotero.hiDPI ? "@2x" : "") + '.png';
     Zotero.CitationCounts.progressWindow.changeHeadline(
-        "Getting " + operationNames[operation] + " citation countss", icon);
+        "Getting " + operationNames[operation] + " citation counts", icon);
     const doiIcon =
           'chrome://zoterocitationcounts/skin/doi' +
           (Zotero.hiDPI ? "@2x" : "") + '.png';

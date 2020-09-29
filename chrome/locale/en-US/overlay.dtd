@@ -13,7 +13,7 @@
 <!ENTITY citationcounts-autoretrieve-semanticscholar-label "Semantic Scholar">
 <!ENTITY citationcounts-autoretrieve-no-label "No">
 <!ENTITY citationcounts-menu-label "Manage Citation Counts">
-<!ENTITY citationcounts-menu-crossref-label "Get Crossref citation counts">
-<!ENTITY citationcounts-menu-inspire-label "Get Inspire HEP citation counts">
-<!ENTITY citationcounts-menu-ads-label "Get NASA/ADS citation counts">
-<!ENTITY citationcounts-menu-semanticscholar-label "Get Semantic Scholar citation counts">
+<!ENTITY citationcounts-menu-crossref-label "Get Crossref citation count">
+<!ENTITY citationcounts-menu-inspire-label "Get Inspire HEP citation count">
+<!ENTITY citationcounts-menu-ads-label "Get NASA/ADS citation count">
+<!ENTITY citationcounts-menu-semanticscholar-label "Get Semantic Scholar citation count">
