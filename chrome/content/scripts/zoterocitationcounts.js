@@ -23,7 +23,7 @@ function getCitationCount(item, tag) {
         return -1;
     }
     let extras = extra.split("\n");
-    const patt = new RegExp("^Citations \\(" + tag + "\\): \\d+", "i");
+    const patt = new RegExp("^Citations \\(" + tag + "\\): (\\d+).*", "i");
     extras = extras.filter(ex => patt.test(ex));
     if (length(extras) == 0) {
         return -1;
@@ -43,8 +43,14 @@ function setCitationCount(item, tag, count) {
     }
     let extras = extra.split("\n");
     const patt = new RegExp("^Citations \\(" + tag + "\\):", "i");
+    // Remove old count
     extras = extras.filter(ex => !patt.test(ex));
-    extras.push("Citations (" + tag + "): " + count);
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const yyyy = today.getFullYear();
+    const date = yyyy + '-' + mm + '-' + dd
+    extras.push("Citations (" + tag + "): " + count) + " [" + date + "]";
     extra = extras.join("\n");
     item.setField('extra', extra);
 }
