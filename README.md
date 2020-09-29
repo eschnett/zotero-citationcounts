@@ -2,9 +2,9 @@
 
 This is an add-on for Zotero, a research source management tool. The
 add-on can auto-fetch citation counts for journal articles using
-various APIs, including Crossref (and in the future probably Inspire
-HEP, NASA/ADS, and Semantic Scholar). (Google Scholar is not supported
-because automated access is against its terms of service.)
+various APIs, including Crossref, Inspire HEP (and in the future
+probably NASA/ADS and Semantic Scholar). (Google Scholar is not
+supported because automated access is against its terms of service.)
 
 Please report any bugs, questions, or feature requests in the Github
 repository.
