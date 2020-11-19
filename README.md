@@ -8,9 +8,9 @@ This is an add-on for [Zotero](https://www.zotero.org), a research
 source management tool. The add-on can auto-fetch citation counts for
 journal articles using various APIs, including
 [Crossref](https://www.crossref.org), [Inspire
-HEP](https://inspirehep.net), and [Semantic
-Scholar](https://www.semanticscholar.org) (and in the future possibly
-[NASA/ADS](https://ui.adsabs.harvard.edu)). [Google
+HEP](https://inspirehep.net),
+[NASA/ADS](https://ui.adsabs.harvard.edu), and [Semantic
+Scholar](https://www.semanticscholar.org). [Google
 Scholar](https://scholar.google.com) is not supported because
 automated access is against its terms of service.
 
