@@ -26,12 +26,13 @@ Code for this extension is based on the [Zotero DOI
 
 ## Plugin Functions
 
-- Get citation counts: For the selected items, look up citation counts
-  (replacing stored citation counts, if any) and tag results with the
-  current date.
+- Get citation counts: Right-click selected Zotero items and select from "Manage Citation Counts" options.
+  This will replace stored citation counts (if any) and tag results with the current date.
+- Currently, Zotero doesn't have any special field for the number of citations, so they are stored in the "Extra" field.
 
 ## Installing
 
+- Download the add-on from the latest release https://github.com/eschnett/zotero-citationcounts/releases/download/v1.1.0/zotero-citationcounts-1.1.0.xpi 
 - Run Zotero (version 5.x)
 - Go to `Tools -> Add-ons`
 - `Install Add-on From File`
