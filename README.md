@@ -32,7 +32,8 @@ Code for this extension is based on the [Zotero DOI
 
 ## Installing
 
-- Download the add-on from the latest release https://github.com/eschnett/zotero-citationcounts/releases/download/v1.1.0/zotero-citationcounts-1.1.0.xpi 
+- Download the add-on (the .xpi file) from the latest release: https://github.com/eschnett/zotero-citationcounts/releases
+- To download the .xpi file, right click it and select 'Save link as' 
 - Run Zotero (version 5.x)
 - Go to `Tools -> Add-ons`
 - `Install Add-on From File`
