@@ -53,7 +53,7 @@ function setCitationCount(item, tag, count) {
     const yyyy = today.getFullYear();
     const date = yyyy + '-' + mm + '-' + dd
     // extras.push("Citations (" + tag + "): " + count + " [" + date + "]");
-    extras.push("" + count + " citations (" + tag + ") [" + date + "]");
+    extras.unshift("" + count + " citations (" + tag + ") [" + date + "]");
     extra = extras.join("\n");
     item.setField('extra', extra);
 }
