@@ -35,7 +35,7 @@ Code for this extension is based on the [Zotero DOI
 - Run Zotero (version 5.x)
 - Go to `Tools -> Add-ons`
 - `Install Add-on From File`
-- Choose the file `zotero-citationcounts-1.1.0.xpi`
+- Choose the file `zotero-citationcounts-1.2.0.xpi`
 - Restart Zotero
 
 ## License

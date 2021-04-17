@@ -1,6 +1,6 @@
 #!/bin/sh
 
-version='1.1.0'
+version='1.2.0'
 
 rm -f zotero-citationcounts-${version}.xpi
 zip -r zotero-citationcounts-${version}.xpi chrome/* defaults/* chrome.manifest install.rdf
