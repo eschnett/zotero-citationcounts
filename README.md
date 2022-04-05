@@ -34,10 +34,10 @@ Code for this extension is based on the [Zotero DOI
 
 - Download the add-on (the .xpi file) from the latest release: https://github.com/eschnett/zotero-citationcounts/releases
 - To download the .xpi file, right click it and select 'Save link as' 
-- Run Zotero (version 5.x)
+- Run Zotero (version 6.x)
 - Go to `Tools -> Add-ons`
 - `Install Add-on From File`
-- Choose the file `zotero-citationcounts-1.2.0.xpi`
+- Choose the file `zotero-citationcounts-1.3.0.xpi`
 - Restart Zotero
 
 ## License
