@@ -175,8 +175,8 @@ async function getSemanticScholarCount(item, idtype) {
     const edoi = encodeURIComponent(doi);
 
     const url =
-          "https://api.semanticscholar.org/v1/paper/" +
-          (idtype == 'doi' ? '' : 'arXiv:') + edoi
+          "https://api.semanticscholar.org/graph/v1/paper/" +
+          (idtype == 'doi' ? '' : 'arXiv:') + edoi + "?fields=citationCount"
     const response = await fetch(url)
           .then(response => response.json())
           .catch(err => null);
@@ -189,7 +189,7 @@ async function getSemanticScholarCount(item, idtype) {
     let count = null;
     try {
         // Semantic Scholar returns the actual citations
-        count = response['citations'].length;
+        count = response['citationCount'];
         // Semantic Scholar imposes a rate limit of 100 requests per 5
         // minutes. We should keep track of this globally so that we
         // don't need to rate limit if there are just a few requests.
