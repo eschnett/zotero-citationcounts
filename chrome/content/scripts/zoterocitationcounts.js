@@ -17,24 +17,8 @@ const operationNames = {
     "semanticscholar": "Semantic Scholar"
 };
 
-// function getCitationCount(item, tag) {
-//     let extra = item.getField('extra');
-//     if (!extra) {
-//         return -1;
-//     }
-//     let extras = extra.split("\n");
-//     const patt = new RegExp("^Citations \\(" + tag + "\\): (\\d+).*", "i");
-//     extras = extras.filter(ex => patt.test(ex));
-//     if (length(extras) == 0) {
-//         return -1;
-//     }
-//     let count = patt.exec(extras[1])[1]
-//     if (!count) {
-//         return -1;
-//     }
-//     count = parseInt(count);
-//     return count;
-// }
+// https://www.crossref.org/blog/dois-and-matching-regular-expressions/
+const doiRegex = /10.\d{4,9}\/[-._;()/:A-Z0-9]+/i
 
 function setCitationCount(item, tag, count) {
     let extra = item.getField('extra');
@@ -58,8 +42,20 @@ function setCitationCount(item, tag, count) {
     item.setField('extra', extra);
 }
 
+function getDOIFromItem(item) {
+    let doi = item.getField('DOI');
+    if (doi) {
+        return doi
+    }
+
+    // Check Extra field
+    const extra = item.getField('extra');
+    const result = doiRegex.exec(extra);
+    return result ? result[0] : null;
+}
+
 async function getCrossrefCount(item) {
-    const doi = item.getField('DOI');
+    const doi = getDOIFromItem(item);
     if (!doi) {
         // There is no DOI; skip item
         return -1;
@@ -109,7 +105,7 @@ async function getCrossrefCount(item) {
 async function getInspireCount(item, idtype) {
     let doi = null;
     if (idtype == 'doi') {
-        doi = item.getField('DOI');
+        doi = getDOIFromItem(item);
     } else if (idtype == 'arxiv') {
         const arxiv = item.getField('url'); // check URL for arXiv id
         const patt = /(?:arxiv.org[/]abs[/]|arXiv:)([a-z.-]+[/]\d+|\d+[.]\d+)/i;
@@ -154,7 +150,7 @@ async function getInspireCount(item, idtype) {
 async function getSemanticScholarCount(item, idtype) {
     let doi = null;
     if (idtype == 'doi') {
-        doi = item.getField('DOI');
+        doi = getDOIFromItem(item);
     } else if (idtype == 'arxiv') {
         const arxiv = item.getField('url'); // check URL for arXiv id
         const patt = /(?:arxiv.org[/]abs[/]|arXiv:)([a-z.-]+[/]\d+|\d+[.]\d+)/i;
@@ -174,9 +170,7 @@ async function getSemanticScholarCount(item, idtype) {
     }
     const edoi = encodeURIComponent(doi);
 
-    const url =
-          "https://api.semanticscholar.org/v1/paper/" +
-          (idtype == 'doi' ? '' : 'arXiv:') + edoi
+    const url = "https://api.semanticscholar.org/graph/v1/paper/" + (idtype == 'doi' ? '' : 'arXiv:') + edoi + "?fields=citationCount"
     const response = await fetch(url)
           .then(response => response.json())
           .catch(err => null);
@@ -189,7 +183,7 @@ async function getSemanticScholarCount(item, idtype) {
     let count = null;
     try {
         // Semantic Scholar returns the actual citations
-        count = response['citations'].length;
+        count = response['citationCount'];
         // Semantic Scholar imposes a rate limit of 100 requests per 5
         // minutes. We should keep track of this globally so that we
         // don't need to rate limit if there are just a few requests.
