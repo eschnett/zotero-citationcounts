@@ -230,9 +230,20 @@ Zotero.CitationCounts.init = function() {
 
 Zotero.CitationCounts.notifierCallback = {
     notify: function(event, type, ids, extraData) {
-        if (event == 'add') {
+        // This event is called when new items are added to zotero.
+        // There is a bug that this is also called when highlighting in the pdf viewer.
+        // For changes in the pdf viewer, the extraData format is different (doesn't have instanceID in the dictionary).
+        // Hack: based on the extraData format, decide if we want to call the citationCount.
+        const isCalledFromHiglight = ids[0] in extraData && 'instanceID' in extraData[ids[0]];
+
+        if (event == 'add' && !isCalledFromHiglight) {
+            // Another fix not to retrieve if extension is cancelled, based on https://github.com/eschnett/zotero-citationcounts/issues/16
             const operation = getPref("autoretrieve");
-            Zotero.CitationCounts.updateItems(Zotero.Items.get(ids), operation);
+            if (operation != "none" || operation === undefined || operation == null  ) {
+                Zotero.CitationCounts.updateItems(Zotero.Items.get(ids), operation);
+            } else {
+                return
+            }
         }
     }
 };
